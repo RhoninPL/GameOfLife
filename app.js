@@ -1,4 +1,4 @@
-var Board = new function() {
+var GameBoard = new function() {
     this.board = []; // status: 1 dead, 2 alive
     this.i = 0;
     this.j = 0;
