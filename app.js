@@ -1,10 +1,11 @@
-var GameBoard = new function() {
+var Game = new function() {
     this.board = []; // status: 1 dead, 2 alive
     this.i = 0;
     this.j = 0;
     this.sizeBlock = 16;
     this.blocks = 50;
     var self = this;
+
     /**
      * Wypełnia tablicę losowymi stanami
      */
@@ -37,7 +38,7 @@ var GameBoard = new function() {
     };
 
     /**
-     * 
+     * Sprawdzanie sąsiadów
      */
     this.checkNeighbors = function() {
         var count = 0;
@@ -95,6 +96,7 @@ var GameBoard = new function() {
             }
         }
 
+
         return count;
     };
 
@@ -111,20 +113,22 @@ var GameBoard = new function() {
      * Metoda generuje nową planszę i odwołuje samą do siebie po pewnym czasie
      */
     this.newBoard = function() {
-        Board = [];
+        var Board = [];
+
         for (var i = 0; i < this.blocks; i++) {
             Board[i] = [];
             for (var j = 0; j < this.blocks; j++) {
                 this.i = i;
                 this.j = j;
                 var neighbours = self.checkNeighbors();
-                if (neighbours == 3 && this.board[i][j] == 2) {
+                if (neighbours == 3) {
                     Board[i][j] = 2;
                 }
 
-                if (((neighbours > 3) || (neighbours < 2)) && this.board[i][j] == 2) {
+                if (((neighbours > 3) || (neighbours < 2))) {
                     Board[i][j] = 1;
                 }
+
             }
         }
 
