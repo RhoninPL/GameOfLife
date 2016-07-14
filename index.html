@@ -7,17 +7,23 @@
 </head>
 
 <body>
-    <div class="container">
-        <canvas id="canvas" width="800" height="800">
-            
-        </canvas>
-    </div>
     <script>
         function run() {
             Game.run();
         }
     </script>
-    <button onclick="run()">Losuj</button>
+    <button onclick="run()" style="float: left;">Losuj nową planszę</button>
+    <div style="float: left; width: 300px;">
+        Symulacja wg podstawowych reguł Conwaya. <br/> Jeśli komórka jest martwa ale ma 3 sąsiadów żywych, staje się żywa.</br>
+        Jeśli ma 2 lub 3 żywych sąsiadów pozostaje nadal żywa. </br>
+        Jeśli ma mniej niż 2 lub więcej niż 3 to umiera </br>
+    </div>
+    <div class="container">
+        <canvas id="canvas" width="800" height="800">
+            
+        </canvas>
+    </div>
+
 </body>
 
 </html>
