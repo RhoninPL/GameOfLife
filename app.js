@@ -1,7 +1,5 @@
 var Game = new function() {
     this.board = []; // status: 1 dead, 2 alive
-    this.i = 0;
-    this.j = 0;
     this.sizeBlock = 16;
     this.blocks = 50;
     var self = this;
@@ -40,10 +38,8 @@ var Game = new function() {
     /**
      * Sprawdzanie sąsiadów
      */
-    this.checkNeighbors = function() {
+    this.checkNeighbors = function(i, j) {
         var count = 0;
-        i = this.i;
-        j = this.j;
         if (typeof this.board[i + 1] !== 'undefined') {
             if (typeof this.board[i + 1][j] !== 'undefined') {
                 if (this.board[i + 1][j] == 2) {
@@ -118,9 +114,7 @@ var Game = new function() {
         for (var i = 0; i < this.blocks; i++) {
             boardtmp[i] = [];
             for (var j = 0; j < this.blocks; j++) {
-                self.i = i;
-                self.j = j;
-                var neighbours = this.checkNeighbors();
+                var neighbours = this.checkNeighbors(i, j);
                 if (neighbours == 3) {
                     boardtmp[i][j] = 2;
                 } else if (((neighbours > 3) || (neighbours < 2))) {
