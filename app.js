@@ -1,17 +1,17 @@
-var Game = new function() {
-    this.board = []; // status: 1 dead, 2 alive
-    this.sizeBlock = 16;
-    this.blocks = 50;
+var Game = function() {
+    var board = []; // status: 1 dead, 2 alive
+    var sizeBlock = 16;
+    var blocks = 50;
     var self = this;
 
     /**
      * Wypełnia tablicę losowymi stanami
      */
-    this.fillBoardArray = function() {
-        for (var i = 0; i < this.blocks; i++) {
-            this.board[i] = [];
-            for (var j = 0; j < this.blocks; j++) {
-                self.board[i][j] = Math.floor(Math.random() * 2) + 1;
+    fillBoardArray = function() {
+        for (var i = 0; i < blocks; i++) {
+            board[i] = [];
+            for (var j = 0; j < blocks; j++) {
+                board[i][j] = Math.floor(Math.random() * 2) + 1;
             }
         }
     };
@@ -19,17 +19,17 @@ var Game = new function() {
     /**
      *     Wypełnia element canvas w kwadraty
      */
-    this.fillBoard = function() {
+    fillBoard = function() {
         var c = document.getElementById("canvas");
         var ctx = c.getContext("2d");
-        for (var i = 0; i < this.blocks; i++) {
-            for (var j = 0; j < this.blocks; j++) {
-                if (self.board[i][j] == 1) {
+        for (var i = 0; i < blocks; i++) {
+            for (var j = 0; j < blocks; j++) {
+                if (board[i][j] == 1) {
                     ctx.fillStyle = "#000000";
-                    ctx.fillRect(i * this.sizeBlock, j * this.sizeBlock, this.sizeBlock, this.sizeBlock);
+                    ctx.fillRect(i * sizeBlock, j * sizeBlock, sizeBlock, sizeBlock);
                 } else {
                     ctx.fillStyle = "#404040";
-                    ctx.fillRect(i * this.sizeBlock, j * this.sizeBlock, this.sizeBlock, this.sizeBlock);
+                    ctx.fillRect(i * sizeBlock, j * sizeBlock, sizeBlock, sizeBlock);
                 }
             }
         }
@@ -38,56 +38,56 @@ var Game = new function() {
     /**
      * Sprawdzanie sąsiadów
      */
-    this.checkNeighbors = function(i, j) {
+    checkNeighbors = function(i, j) {
         var count = 0;
-        if (typeof this.board[i + 1] !== 'undefined') {
-            if (typeof this.board[i + 1][j] !== 'undefined') {
-                if (this.board[i + 1][j] == 2) {
+        if (typeof board[i + 1] !== 'undefined') {
+            if (typeof board[i + 1][j] !== 'undefined') {
+                if (board[i + 1][j] == 2) {
                     count++;
                 }
             }
 
-            if (typeof this.board[i + 1][j + 1] !== 'undefined') {
-                if (this.board[i + 1][j + 1] == 2) {
+            if (typeof board[i + 1][j + 1] !== 'undefined') {
+                if (board[i + 1][j + 1] == 2) {
                     count++;
                 }
             }
 
-            if (typeof this.board[i + 1][j - 1] !== 'undefined') {
-                if (this.board[i + 1][j - 1] == 2) {
-                    count++;
-                }
-            }
-        }
-
-        if (typeof(this.board[i - 1]) != 'undefined') {
-            if (typeof(this.board[i - 1][j]) != 'undefined') {
-                if (this.board[i - 1][j] == 2) {
-                    count++;
-                }
-            }
-
-            if (typeof this.board[i - 1][j + 1] !== 'undefined') {
-                if (this.board[i - 1][j + 1] == 2) {
-                    count++;
-                }
-            }
-
-            if (typeof this.board[i - 1][j + 1] !== 'undefined') {
-                if (this.board[i - 1][j + 1] == 2) {
+            if (typeof board[i + 1][j - 1] !== 'undefined') {
+                if (board[i + 1][j - 1] == 2) {
                     count++;
                 }
             }
         }
 
-        if (typeof this.board[i][j + 1] !== 'undefined') {
-            if (this.board[i][j + 1] == 2) {
+        if (typeof(board[i - 1]) != 'undefined') {
+            if (typeof(board[i - 1][j]) != 'undefined') {
+                if (board[i - 1][j] == 2) {
+                    count++;
+                }
+            }
+
+            if (typeof board[i - 1][j + 1] !== 'undefined') {
+                if (board[i - 1][j + 1] == 2) {
+                    count++;
+                }
+            }
+
+            if (typeof board[i - 1][j + 1] !== 'undefined') {
+                if (board[i - 1][j + 1] == 2) {
+                    count++;
+                }
+            }
+        }
+
+        if (typeof board[i][j + 1] !== 'undefined') {
+            if (board[i][j + 1] == 2) {
                 count++;
             }
         }
 
-        if (typeof this.board[i][j - 1] !== 'undefined') {
-            if (this.board[i][j - 1] == 2) {
+        if (typeof board[i][j - 1] !== 'undefined') {
+            if (board[i][j - 1] == 2) {
                 count++;
             }
         }
@@ -96,44 +96,42 @@ var Game = new function() {
         return count;
     };
 
-    /**
-     * Główna metoda do uruchamiania 
-     */
-    this.run = function() {
-        this.fillBoardArray();
-        this.fillBoard();
-        this.newBoard();
+    run = function() {
+        fillBoardArray();
+        fillBoard();
+        generateNewBoard();
     };
 
-    /**
-     * Metoda generuje nową planszę i odwołuje samą do siebie po pewnym czasie
-     */
-    this.newBoard = function() {
+    generateNewBoard = function() {
         var boardtmp = [];
 
-        for (var i = 0; i < this.blocks; i++) {
+        for (var i = 0; i < blocks; i++) {
             boardtmp[i] = [];
-            for (var j = 0; j < this.blocks; j++) {
-                var neighbours = this.checkNeighbors(i, j);
+            for (var j = 0; j < blocks; j++) {
+                var neighbours = checkNeighbors(i, j);
                 if (neighbours == 3) {
                     boardtmp[i][j] = 2;
                 } else if (((neighbours > 3) || (neighbours < 2))) {
                     boardtmp[i][j] = 1;
                 } else {
-                    boardtmp[i][j] = this.board[i][j];
+                    boardtmp[i][j] = board[i][j];
                 }
             }
         }
 
-        for (var i = 0; i < this.blocks; i++) {
-            for (var j = 0; j < this.blocks; j++) {
-                self.board[i][j] = boardtmp[i][j];
+        for (var i = 0; i < blocks; i++) {
+            for (var j = 0; j < blocks; j++) {
+                board[i][j] = boardtmp[i][j];
             }
         }
 
-        self.fillBoard();
+        fillBoard();
         setTimeout(function() {
-            self.newBoard();
+            generateNewBoard();
         }, 3000)
     };
-}
+
+    return {
+        run: run
+    }
+}();
